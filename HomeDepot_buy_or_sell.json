@@ -1,0 +1,11 @@
+{
+  "2018-03-15": {
+    "sentiment_score": 0.23333333333333334,
+    "buy_or_sell": "SELL"
+  },
+  "2018-03-16": {
+    "sentiment_score": 0.21176470588235294,
+    "buy_or_sell": "BUY"
+  },
+  "2018-03-17": { "sentiment_score": 0.375, "buy_or_sell": "SELL" }
+}
