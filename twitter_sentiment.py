@@ -22,8 +22,21 @@ file_name = 'tweets.json'
 tickers = ['AAPL', 'MSFT', 'MMM', 'TSLA',
            'DE', 'HD', 'UNP', 'CAT', 'GS', 'COST']
 
-tickers_twitter = ['AppleSupport', 'Microsoft', '3M', 'Tesla', 'JohnDeere',
+tickers_twitter = ['ApplePodcasts', 'Microsoft', '3M', 'Tesla', 'JohnDeere',
                    'HomeDepot', 'UnionPacific', 'CaterpillarInc', 'GoldmanSachs', 'Costcocanada']
+
+ticker_twitter_map = {
+    'ApplePodcasts': 'AAPL',
+    'Microsoft': 'MSFT',
+    '3M': 'MMM',
+    'Tesla': 'TSLA',
+    'JohnDeere': 'DE',
+    'HomeDepot': 'HD',
+    'UnionPacific': 'UNP',
+    'CaterpillarInc': 'CAT',
+    'GoldmanSachs': 'GS',
+    'Costcocanada': 'COST'
+}
 
 # tickers_twitter = ['ApplePodcasts']
 
@@ -114,11 +127,21 @@ def buy_or_sell(sentiment_score):
         return 'SELL'
 
 
+""" Read the daily data and store it with the buy_or_sell """
+try:
+    with open('prices.csv', 'r') as csv_file:
+        reader = csv.reader(csv_file, delimiter=',',  quotechar='|')
+        all_prices = [{'ticker': row[0], 'date': row[1],
+                       'price': row[2]} for row in reader]
+except Exception as e:
+    print(e)
+
 """
 Reads the daily data and determines a sentiment score and buy/sell, then stores it
 """
 for ticker_twitter_account in tickers_twitter:
     days = {}
+    # price = 'NA'
     try:
         with open(ticker_twitter_account + '_daily_data' + '.json',  encoding='utf-8') as read_file:
             data = json.loads(read_file.read())
@@ -132,9 +155,13 @@ for ticker_twitter_account in tickers_twitter:
                 else:
                     sentiment_score = daily_retweet_count / daily_favorited_count
                     buy_or_sell_str = buy_or_sell(sentiment_score)
+                for item in all_prices:
+                    if item['ticker'] == ticker_twitter_map[ticker_twitter_account] and item['date'] == day:
+                        price = item['price']
                 days[day] = {
                     'sentiment_score': sentiment_score,
-                    'buy_or_sell': buy_or_sell_str
+                    'buy_or_sell': buy_or_sell_str,
+                    'price': price
                 }
             # print(days)
         with open(ticker_twitter_account + '_buy_or_sell' + '.json', 'w') as data_set:
