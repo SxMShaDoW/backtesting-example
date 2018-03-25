@@ -43,7 +43,7 @@ def retrieve_tweets_api():
                 try:
                     new_tweets = api.user_timeline(
                         ticker_twitter_account, count=200, max_id=oldest, include_rts=False).items()
-                    all_tweets.extend(cricTweet)
+                    all_tweets.extend(new_tweets)
                     oldest = all_tweets[-1].id - 1
                     print("tweets downloaded so far", len(all_tweets))
                 except Exception:
