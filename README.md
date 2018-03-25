@@ -8,6 +8,7 @@
 * `pip3 install tweepy`
 * `pip3 install pandas`
 * `pip3 install flask`
+* `pip3 install pytest`
 
 ### Setup
 
@@ -33,3 +34,7 @@
 1.  `http://127.0.0.1:5000/backtesting/api/v1.0/results/portfolio_balance/maxdrawdown` will calculate the max drawdown percentage
 2.  `http://127.0.0.1:5000/backtesting/api/v1.0/results/portfolio_balance/netgainloss` will calculate the net/gain loss percentage
 3.  `http://127.0.0.1:5000/backtesting/api/v1.0/results/portfolio_balance/YYYY-MM-DD` will calculate the balance on a given date
+
+#### Running unit tests
+
+`pytest --cov=. .`
