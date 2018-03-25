@@ -7,6 +7,10 @@ from collections import OrderedDict
 # all the important tickers.
 from twitter_tickers import tickers_twitter
 from config import folder, portfolio_value
+import logging
+# Logger setup
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 num_buy_shares = 100
 num_sell_shares = 100

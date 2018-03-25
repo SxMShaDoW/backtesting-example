@@ -4,6 +4,10 @@ import csv
 from twitter_tickers import tickers_twitter
 from twitter_tickers import ticker_twitter_map
 from config import folder
+import logging
+# Logger setup
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 
 def organize_tweets_per_account_per_day():

@@ -4,6 +4,10 @@ import json
 from collections import OrderedDict
 from config import folder, portfolio_value
 from datetime import datetime
+import logging
+# Logger setup
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 
 def valid_date(datestring):

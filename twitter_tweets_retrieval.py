@@ -8,6 +8,10 @@ import csv
 from twitter_tickers import tickers_twitter
 from secrets import consumer_key, consumer_secret
 from config import folder
+import logging
+# Logger setup
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 auth = AppAuthHandler(consumer_key, consumer_secret)
 api = tweepy.API(auth, wait_on_rate_limit=True,

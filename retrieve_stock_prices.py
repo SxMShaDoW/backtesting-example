@@ -2,6 +2,10 @@ from pandas_datareader import data
 import pandas as pd
 from twitter_tickers import tickers
 from config import folder
+import logging
+# Logger setup
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 data_source = 'morningstar'
 start_date = '2017-01-01'

@@ -1,6 +1,10 @@
 #!flask/bin/python
 from flask import Flask, jsonify
 from query import portfolio_value_on_date, net_gain_loss_percentage, max_drawdown
+import logging
+# Logger setup
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 app = Flask(__name__)
 
