@@ -26,7 +26,7 @@
 
 1.  `python twitter_sentiment.py` will organize the tweets and calculate the twitter sentiment
 2.  `python portfolio_calculator.py` will determine buy or sells and record the backtesting. Note: Portfolio starts at 1M and you can only buy/sell 100 shares of each stock at a given time
-3.  `python query_app.py` will run a simple REST-based flask micro webservice on `127.0.0.1:5000`
+3.  `python query_app.py` will run a simple REST-based flask micro webservice on `127.0.0.1:5000` utilizing the `query.py` module
 
 #### REST Endpoints when server is running
 
