@@ -6,11 +6,10 @@ from collections import OrderedDict
 
 # all the important tickers.
 from twitter_tickers import tickers_twitter
-from config import folder
+from config import folder, portfolio_value
 
 num_buy_shares = 100
 num_sell_shares = 100
-portfolio_value = 100000
 
 
 def daily_portfolio_organizer():
@@ -89,7 +88,6 @@ def portfolio_calculator():
             data_set.write(json.dumps(record_keeping, sort_keys=True))
     except Exception as e:
         print(e)
-    print(json.dumps(record_keeping, sort_keys=True))
 
 
 if __name__ == "__main__":
