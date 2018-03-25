@@ -9,6 +9,7 @@
 * `pip3 install pandas`
 * `pip3 install flask`
 * `pip3 install pytest`
+* `pip3 install PyGithub`
 
 ### Setup
 
@@ -38,3 +39,12 @@
 #### Running unit tests
 
 `pytest --cov=. .`
+
+#### Running CICD
+
+1.  `git clone <repo>` you want to monitor (i.e. `git clone https://github.com/SxMShaDoW/backtesting-example/`
+2.  Copy the `cicd_github_monitor.py` inside the repo (already there in this case)
+3.  Create a `secrets.py` file (if it doesn't already exist)
+4.  Place your `github_token = 'XXX'` in the `secrets.py`
+5.  Modify the repo you want to monitor in `cicd_github_monitor.py` (Line 13) (`blockchain-example`)
+6.  Run `python cicd_github_monitor.py`
