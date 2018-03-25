@@ -10,7 +10,7 @@ from config import folder, portfolio_value
 import logging
 # Logger setup
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.WARNING)
 
 num_buy_shares = 100
 num_sell_shares = 100
@@ -35,11 +35,11 @@ def daily_portfolio_organizer():
                         }
                         }
                     )
-                # print(days)
+                logger.info(day_record)
             with open(folder + 'daily_portfolio.json', 'w') as data_set:
                 data_set.write(json.dumps(day_record, sort_keys=True))
         except Exception as e:
-            print(e)
+            logger.warning(e)
             continue
 
 
@@ -91,7 +91,7 @@ def portfolio_calculator():
         with open(folder + 'portfolio_balance.json', 'w') as data_set:
             data_set.write(json.dumps(record_keeping, sort_keys=True))
     except Exception as e:
-        print(e)
+        logger.critical(e)
 
 
 if __name__ == "__main__":

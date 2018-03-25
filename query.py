@@ -15,7 +15,8 @@ def valid_date(datestring):
     try:
         datetime.strptime(datestring, '%Y-%m-%d')
         return True
-    except ValueError:
+    except ValueError as e:
+        logger.info('not a valid date: ' + e)
         return False
 
 
@@ -28,6 +29,7 @@ def portfolio_value_on_date(date):
                                   object_pairs_hook=OrderedDict)
                 return data[date]['daily_value']
         except Exception:
+            logger.critical('couldnt read portfolio.json')
             return 'something went horribly wrong trying to open the portfolio.json'
     else:
         return 'error on date format or date not in range'
@@ -40,6 +42,7 @@ def net_gain_loss_percentage():
             data = json.loads(read_file.read(),
                               object_pairs_hook=OrderedDict)
             net_gain_loss = data['final_portfolio'] / portfolio_value
+            logger.info('net gain loss is ' + net_gain_loss)
             if net_gain_loss > 0:
                 return 'Your net gain is ' + str(net_gain_loss) + '%'
             elif net_gain_loss == 0:
@@ -47,6 +50,7 @@ def net_gain_loss_percentage():
             else:
                 return 'Your net loss is ' + str(net_gain_loss) + '%'
     except Exception:
+        logger.critical('couldnt read portfolio.json')
         return 'something went horribly wrong trying to open the portfolio.json'
 
 
@@ -68,6 +72,8 @@ def max_drawdown():
             max_price = max(daily_price())
             min_price = min(daily_price())
             draw = max_price / min_price
+            logger.info('draw percent: ' + draw)
             return 'Max Drawdown is ' + str(draw) + '%'
     except Exception:
+        logger.critical('couldnt read portfolio.json')
         return 'something went horribly wrong trying to open the portfolio.json'

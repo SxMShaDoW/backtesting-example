@@ -17,7 +17,7 @@ auth = AppAuthHandler(consumer_key, consumer_secret)
 api = tweepy.API(auth, wait_on_rate_limit=True,
                  wait_on_rate_limit_notify=True)
 if (not api):
-    print("Can't Authenticate")
+    logger.critical("Can't Authenticate")
     sys.exit(-1)
 
 start_date = datetime(2017, 1, 1)
@@ -41,17 +41,17 @@ def retrieve_tweets_api():
             # save the oldest
             oldest = all_tweets[-1].id - 1
 
-            print(len(all_tweets))
+            logger.info('num of tweets to retrieve' + len(all_tweets))
             while cricTweet.num_tweets > 0:
-                print('getting tweets before', oldest)
+                logger.info('getting tweets before' + oldest)
                 try:
                     new_tweets = api.user_timeline(
                         ticker_twitter_account, count=200, max_id=oldest, include_rts=False).items()
                     all_tweets.extend(new_tweets)
                     oldest = all_tweets[-1].id - 1
-                    print("tweets downloaded so far", len(all_tweets))
+                    logger.info("tweets downloaded so far" + len(all_tweets))
                 except Exception:
-                    print('no more new tweets')
+                    logger.info('no more new tweets')
                     break
 
             outtweets = [[tweet.id_str, tweet.created_at.strftime('%Y-%m-%d'),
@@ -62,6 +62,7 @@ def retrieve_tweets_api():
                 writer.writerow(["id", "created_at", "text",
                                  "favorite_count", "retweet_count"])
                 writer.writerows(outtweets)
+                logger.info('successfully stored tweets in csv')
 
             saved_dict = []
             for tweet in all_tweets:
@@ -75,6 +76,7 @@ def retrieve_tweets_api():
                     }
                     saved_dict.append(important_info)
             f.write(json.dumps(saved_dict, sort_keys=True))
+            logger.info('successfully stored tweets in json file')
 
 
 if __name__ == "__main__":

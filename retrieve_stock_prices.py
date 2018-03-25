@@ -17,5 +17,6 @@ if __name__ == "__main__":
         panel_data = data.DataReader(
             tickers, data_source, start_date, end_date)
         panel_data.to_csv(folder + "prices.csv")
+        logger.info('Created prices.csv from ' + data_source)
     except Exception as e:
-        print(e)
+        logger.critical('couldnt write to csv or use panda properly ' + e)

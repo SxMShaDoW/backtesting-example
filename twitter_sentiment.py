@@ -7,7 +7,7 @@ from config import folder
 import logging
 # Logger setup
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.WARNING)
 
 
 def organize_tweets_per_account_per_day():
@@ -32,10 +32,12 @@ def organize_tweets_per_account_per_day():
                                    ]['daily_favorited_count'] = data_store[timestamp]['daily_favorited_count'] + favorite_count
                         data_store[timestamp]['daily_retweet_count'] = data_store[timestamp
                                                                                   ]['daily_retweet_count'] + retweet_count
-                # print(data_store)
+                logger.info(data_store)
                 with open(folder + ticker_twitter_account + '_daily_data' + '.json', 'w') as data_set:
                     data_set.write(json.dumps(data_store, sort_keys=True))
+                    logger.info('created tweets in each account per day')
         except Exception:
+            logger.warning('couldnt open or save twitter daily data')
             continue
 
 
@@ -58,7 +60,7 @@ def retrieve_stock_prices():
             all_prices = [{'ticker': row[0], 'date': row[1],
                            'price': row[2]} for row in reader]
     except Exception as e:
-        print(e)
+        logger.critical('couldnt read prices.csv or parse it' + e)
     return all_prices
 
 
@@ -68,14 +70,14 @@ def record_twitter_sentiment(all_prices):
     """
     for ticker_twitter_account in tickers_twitter:
         days = {}
-        # price = 'NA'
         try:
             with open(folder + ticker_twitter_account + '_daily_data' + '.json',  encoding='utf-8') as read_file:
                 data = json.loads(read_file.read())
                 for day in data:
                     daily_favorited_count = data[day]['daily_favorited_count']
                     daily_retweet_count = data[day]['daily_retweet_count']
-                    # print(daily_favorited_count)
+                    logger.info('daily favorite count ' +
+                                daily_favorited_count)
                     if daily_favorited_count == 0 or daily_retweet_count == 0:
                         sentiment_score = 0
                         buy_or_sell_str = 'SELL'
@@ -90,11 +92,12 @@ def record_twitter_sentiment(all_prices):
                         'buy_or_sell': buy_or_sell_str,
                         'price': price
                     }
-                # print(days)
+                logger.info('daily data ' + days)
             with open(folder + ticker_twitter_account + '_buy_or_sell' + '.json', 'w') as data_set:
                 data_set.write(json.dumps(days, sort_keys=True))
+                logger.info('saved data to json for each buy_or_sell')
         except Exception as e:
-            print(e)
+            logger.warning('unable to save data for buy_or_sell ' + e)
             continue
 
 
